@@ -6,13 +6,13 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/textViewType"
+        android:id="@+id/accountType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textViewBalance"
+        android:id="@+id/accountBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp" />

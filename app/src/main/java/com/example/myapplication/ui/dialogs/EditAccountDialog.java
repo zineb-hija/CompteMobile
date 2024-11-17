@@ -1,50 +1,52 @@
 package com.example.myapplication.ui.dialogs;
 
-
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+import androidx.annotation.NonNull;
 import com.example.myapplication.R;
 import com.example.myapplication.data.models.Account;
 import com.example.myapplication.ui.viewmodels.AccountViewModel;
 
-public class EditAccountDialog {
-    private Dialog dialog;
-    private AccountViewModel accountViewModel;
-    private Account account;
+public class EditAccountDialog extends Dialog {
+    private final AccountViewModel accountViewModel;
+    private final Account account;
 
-    public EditAccountDialog(Context context, AccountViewModel accountViewModel, Account account) {
-        this.accountViewModel = accountViewModel;
+    public EditAccountDialog(@NonNull Context context, AccountViewModel viewModel, Account account) {
+        super(context);
+        this.accountViewModel = viewModel;
         this.account = account;
-        dialog = new Dialog(context);
-        dialog.setContentView(R.layout.dialog_account);
+        setContentView(R.layout.dialog_account);
 
-        EditText editTextType = dialog.findViewById(R.id.editTextType);
-        EditText editTextBalance = dialog.findViewById(R.id.editTextBalance);
-        Button buttonEdit = dialog.findViewById(R.id.buttonAdd);
+        EditText accountTypeEditText = findViewById(R.id.accountTypeEditText);
+        EditText accountBalanceEditText = findViewById(R.id.accountBalanceEditText);
+        Button editButton = findViewById(R.id.editButton);
 
         // Remplir les champs avec les données existantes
-        editTextType.setText(account.getType());
-        editTextBalance.setText(String.valueOf(account.getBalance()));
+        accountTypeEditText.setText(account.getType());
+        accountBalanceEditText.setText(String.valueOf(account.getBalance()));
 
-        buttonEdit.setText("Modifier");
-        buttonEdit.setOnClickListener(new View.OnClickListener() {
+        editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String type = editTextType.getText().toString();
-                double balance = Double.parseDouble(editTextBalance.getText().toString());
+                String type = accountTypeEditText.getText().toString();
+                double balance;
+
+                // Validation de l'entrée pour le solde
+                try {
+                    balance = Double.parseDouble(accountBalanceEditText.getText().toString());
+                } catch (NumberFormatException e) {
+                    accountBalanceEditText.setError("Veuillez entrer un solde valide.");
+                    return;
+                }
+
                 account.setType(type);
                 account.setBalance(balance);
-                accountViewModel.updateAccount(account); // Méthode pour mettre à jour le compte
-                dialog.dismiss();
+                accountViewModel.updateAccount(account);
+                dismiss();
             }
         });
-    }
-
-    public void show() {
-        dialog.show();
     }
 }
