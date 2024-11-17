@@ -2,17 +2,20 @@ package com.example.myapplication.data.api;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
-    private static final String BASE_URL = "https://yourapi.com/api/";
-    private static Retrofit retrofit;
+import com.example.myapplication.utils.Constants;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-    public static Retrofit getRetrofitInstance() {
+public class RetrofitClient {
+    private static Retrofit retrofit = null;
+
+    public static ApiService getApiService() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(Constants.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        return retrofit;
+        return retrofit.create(ApiService.class);
     }
 }

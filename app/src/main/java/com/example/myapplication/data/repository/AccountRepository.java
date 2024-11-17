@@ -1,27 +1,32 @@
 package com.example.myapplication.data.repository;
 
-import com.example.myapplication.data.api.ApiService;
-import com.example.myapplication.data.api.RetrofitClient;
+
 import com.example.myapplication.data.models.Account;
+
+import java.util.ArrayList;
 import java.util.List;
-import retrofit2.Call;
 
 public class AccountRepository {
-    private ApiService apiService;
+    private List<Account> accountList = new ArrayList<>();
 
-    public AccountRepository() {
-        apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+    public List<Account> getAccounts() {
+        return accountList;
     }
 
-    public Call<List<Account>> getAccounts() {
-        return apiService.getAccounts();
+    public void addAccount(Account account) {
+        accountList.add(account);
     }
 
-    public Call<Account> addAccount(Account account) {
-        return apiService.addAccount(account);
+    public void removeAccount(String id) {
+        accountList.removeIf(account -> account.getId().equals(id));
     }
 
-    public Call<Void> deleteAccount(int id) {
-        return apiService.deleteAccount(id);
+    public void updateAccount(Account updatedAccount) {
+        for (int i = 0; i < accountList.size(); i++) {
+            if (accountList.get(i).getId().equals(updatedAccount.getId())) {
+                accountList.set(i, updatedAccount);
+                break;
+            }
+        }
     }
 }

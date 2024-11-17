@@ -29,19 +29,24 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     buildFeatures {
         compose = true
     }
+
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.1" // Assurez-vous d'utiliser la version appropriée
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -50,7 +55,6 @@ android {
 }
 
 dependencies {
-
     // Android Core & Compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -59,8 +63,12 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material3) // Assurez-vous d'utiliser Material 3
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.recyclerview) // Dépendance pour RecyclerView
+
+    // Ajout de Material Components
+    implementation("com.google.android.material:material:1.6.0") // Ajoutez cette ligne
 
     // Retrofit pour les appels réseau
     val retrofitVersion = "2.9.0"
